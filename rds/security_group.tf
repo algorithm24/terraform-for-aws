@@ -1,8 +1,9 @@
 resource "aws_security_group" "allow-mariadb" {
   vpc_id = var.vpc_id
   name = "${var.env}-allow-mariadb"
+  description = "Security group to access DB from private subnets"
   ingress {
-    description = "Access to DB inside Private Subnet"
+    description = "Access to DB inside Private Subnets"
     from_port = 3306
     to_port = 3306
     protocol = "tcp"

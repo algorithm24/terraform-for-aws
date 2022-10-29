@@ -1,6 +1,7 @@
 resource "aws_security_group" "elb-securitygroup" {
   vpc_id = var.vpc_id
   name = "elb"
+  description = "Security group to communicate through ELB"
   egress {
     description = "Access to External through ELB"
     from_port = 0
