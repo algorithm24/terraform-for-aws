@@ -1,6 +1,6 @@
 locals {
-  access_key = "AKIA24Z7YKW7IZ3BD5PK"
-  secret_key = "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"
+  access_key = ""
+  secret_key = ""
 }
 provider "aws" {
   access_key = local.access_key
