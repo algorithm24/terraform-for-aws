@@ -1,6 +1,6 @@
 module "key" {
   source   = "./keypair"
-  key_file = file("/Users/dyle/Desktop/terra/key_file/mykey.pub")
+  key_file = file("/Users/dyle/Desktop/terraform-for-aws/key_file/mykey.pub")
   env      = "bastion"
 }
 module "secret" {
