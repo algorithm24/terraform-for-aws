@@ -46,7 +46,6 @@ data "template_file" "user-data" {
     auth_file_prod = data.template_file.auth-file-prod.rendered
     script_file = file("/Users/dyle/Desktop/terraform-for-aws/user_data_file/script.sh")
     aws_auth_file = data.template_file.aws-auth-file.rendered
-    grafana_file = file("/Users/dyle/Desktop/terraform-for-aws/user_data_file/grafana.yaml")
     service_account_file = data.template_file.service-account.rendered
   }
 }

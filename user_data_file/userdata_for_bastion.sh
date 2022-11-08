@@ -21,8 +21,6 @@ chown ubuntu /home/ubuntu/auth.yaml
 echo "${auth_file_prod}" > /home/ubuntu/auth-prod.yaml
 chmod 700 /home/ubuntu/auth-prod.yaml
 chown ubuntu /home/ubuntu/auth-prod.yaml
-mkdir /home/ubuntu/environment
-mkdir /home/ubuntu/environment/grafana
 sudo curl -o gethelm3 "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"
 sudo chmod +x gethelm3
 sudo ./gethelm3
@@ -34,9 +32,6 @@ sudo apt-get install git -y
 wget "https://raw.githubusercontent.com/algorithm24/app/master/app/argocd-setup-application.yaml" -O /home/ubuntu/application.yaml
 chmod 700 /home/ubuntu/application.yaml
 chown ubuntu /home/ubuntu/application.yaml
-echo "${grafana_file}" > /home/ubuntu/environment/grafana/grafana.yaml
-chmod 700 /home/ubuntu/environment/grafana/grafana.yaml
-chown ubuntu /home/ubuntu/environment/grafana/grafana.yaml
 echo "${service_account_file}" > /home/ubuntu/service-account.yaml
 chmod 700 /home/ubuntu/service-account.yaml
 chown ubuntu /home/ubuntu/service-account.yaml
