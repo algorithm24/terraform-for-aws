@@ -1,5 +1,5 @@
 resource "aws_eks_cluster" "eks-control-plane" {
-  name     = "${var.env}-eks-control-plane"
+  name     = "${var.env}-eks-cluster"
   role_arn = aws_iam_role.eks-control-plane.arn
 
   vpc_config {

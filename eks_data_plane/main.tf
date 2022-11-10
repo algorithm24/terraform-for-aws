@@ -12,7 +12,7 @@ locals {
 #!/bin/bash
 mkdir /mnt/pv-{alert, server}
 set -o xtrace
-/etc/eks/bootstrap.sh --apiserver-endpoint '${var.eks_control_plane_endpoint}' --b64-cluster-ca '${var.eks_control_plane_certificate_authority}' '${var.env}-eks-control-plane'
+/etc/eks/bootstrap.sh --apiserver-endpoint '${var.eks_control_plane_endpoint}' --b64-cluster-ca '${var.eks_control_plane_certificate_authority}' '${var.env}-eks-cluster'
 USERDATA
 
 }
@@ -52,7 +52,7 @@ resource "aws_autoscaling_group" "node-autoscaling-group" {
   }
 
   tag {
-    key                 = "kubernetes.io/cluster/${var.env}-eks-control-plane"
+    key                 = "kubernetes.io/cluster/${var.env}-eks-cluster"
     value               = "owned"
     propagate_at_launch = true
   }

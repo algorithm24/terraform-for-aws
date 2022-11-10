@@ -12,7 +12,7 @@ resource "aws_security_group" "node" {
   }
   tags = {
     "Name"                                         = "terraform-eks-${var.env}-node"
-    "kubernetes.io/cluster/${var.env}-eks-control-plane" = "owned"
+    "kubernetes.io/cluster/${var.env}-eks-cluster" = "owned"
   }
 }
 

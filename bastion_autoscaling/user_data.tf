@@ -28,8 +28,6 @@ data "template_file" "aws-auth-file" {
   vars = {
     aws_access_key_id = var.aws_access_key_id
     aws_secret_access_key = var.aws_secret_access_key
-    eks_cluster_name = var.eks_cluster_name
-    eks_cluster_name_prod = var.eks_cluster_name_prod
   }
 }
 data "template_file" "service-account" {
