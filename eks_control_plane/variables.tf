@@ -7,9 +7,6 @@ variable "vpc_id" {
 variable "vpc_zone_identifier" {
   type = list(string)
 }
-variable "instance_type" {
+variable "eks_data_plane_security_group_id" {
   type = string
-}
-variable "desired_capacity" {
-  type = number
 }

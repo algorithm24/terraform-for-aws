@@ -1,7 +1,7 @@
 data "aws_ami" "eks-worker" {
   filter {
     name   = "name"
-    values = ["amazon-eks-node-${aws_eks_cluster.eks-cluster.version}-v*"]
+    values = ["amazon-eks-node-${var.eks_control_plane_version}-v*"]
   }
 
   most_recent = true
@@ -12,12 +12,12 @@ locals {
 #!/bin/bash
 mkdir /mnt/pv-{alert, server}
 set -o xtrace
-/etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.eks-cluster.endpoint}' --b64-cluster-ca '${aws_eks_cluster.eks-cluster.certificate_authority[0].data}' '${var.env}-eks-cluster'
+/etc/eks/bootstrap.sh --apiserver-endpoint '${var.eks_control_plane_endpoint}' --b64-cluster-ca '${var.eks_control_plane_certificate_authority}' '${var.env}-eks-control-plane'
 USERDATA
 
 }
 
-resource "aws_launch_template" "eks-launch-template" {
+resource "aws_launch_template" "node-launch-template" {
   network_interfaces {
     associate_public_ip_address = true
     security_groups = [aws_security_group.node.id]
@@ -35,10 +35,10 @@ resource "aws_launch_template" "eks-launch-template" {
   }
 }
 
-resource "aws_autoscaling_group" "eks-autoscaling-group" {
+resource "aws_autoscaling_group" "node-autoscaling-group" {
   desired_capacity     = var.desired_capacity
   launch_template {
-    id      = aws_launch_template.eks-launch-template.id
+    id      = aws_launch_template.node-launch-template.id
     version = "$Latest"
   }
   max_size             = 9
@@ -52,7 +52,7 @@ resource "aws_autoscaling_group" "eks-autoscaling-group" {
   }
 
   tag {
-    key                 = "kubernetes.io/cluster/${var.env}-eks-cluster"
+    key                 = "kubernetes.io/cluster/${var.env}-eks-control-plane"
     value               = "owned"
     propagate_at_launch = true
   }

@@ -12,7 +12,7 @@ resource "aws_security_group" "node" {
   }
   tags = {
     "Name"                                         = "terraform-eks-${var.env}-node"
-    "kubernetes.io/cluster/${var.env}-eks-cluster" = "owned"
+    "kubernetes.io/cluster/${var.env}-eks-control-plane" = "owned"
   }
 }
 
@@ -41,7 +41,7 @@ resource "aws_security_group_rule" "node-ingress-cluster" {
   from_port                = 1025
   protocol                 = "tcp"
   security_group_id        = aws_security_group.node.id
-  source_security_group_id = aws_security_group.eks-cluster.id
+  source_security_group_id = var.eks_control_plane_security_group_id
   to_port                  = 65535
   type                     = "ingress"
 }

@@ -1,6 +1,6 @@
 resource "aws_autoscaling_policy" "cpu-policy" {
   name                   = "${var.env}-cpu-policy"
-  autoscaling_group_name = aws_autoscaling_group.eks-autoscaling-group.name
+  autoscaling_group_name = aws_autoscaling_group.node-autoscaling-group.name
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = "1"
   cooldown               = "300"
@@ -18,7 +18,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu-alarm" {
   threshold           = "70"
 
   dimensions = {
-    "AutoScalingGroupName" = aws_autoscaling_group.eks-autoscaling-group.name
+    "AutoScalingGroupName" = aws_autoscaling_group.node-autoscaling-group.name
   }
 
   actions_enabled = true

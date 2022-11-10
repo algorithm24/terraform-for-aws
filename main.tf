@@ -29,21 +29,18 @@ module "prod-vpc" {
   public_subnet_cidr_blocks  = ["10.2.0.0/24", "10.2.1.0/24", "10.2.2.0/24"]
   private_subnet_cidr_blocks = ["10.2.10.0/24", "10.2.11.0/24", "10.2.22.0/24", "10.2.100.0/24", "10.2.110.0/24", "10.2.220.0/24"]
 }
-module "nonprod-eks-cluster" {
-  source              = "./eks_cluster"
-  env                 = "nonprod"
-  vpc_id              = module.nonprod-vpc.vpc_id
-  vpc_zone_identifier = module.nonprod-vpc.subnet_ids_instance
-  instance_type       = "t2.medium"
-  desired_capacity    = 4
-}
-module "prod-eks-cluster" {
-  source              = "./eks_cluster"
-  env                 = "prod"
-  vpc_id              = module.prod-vpc.vpc_id
-  vpc_zone_identifier = module.prod-vpc.subnet_ids_instance
-  instance_type       = "t2.medium"
-  desired_capacity    = 4
+module "eks-cluster" {
+  source                      = "./eks_skeleton"
+  env_prod                    = "prod"
+  vpc_id_prod                 = module.prod-vpc.vpc_id
+  vpc_zone_identifier_prod    = module.prod-vpc.subnet_ids_instance
+  instance_type_prod          = "t2.medium"
+  desired_capacity_prod       = 4
+  env_nonprod                 = "nonprod"
+  vpc_id_nonprod              = module.nonprod-vpc.vpc_id
+  vpc_zone_identifier_nonprod = module.nonprod-vpc.subnet_ids_instance
+  instance_type_nonprod       = "t2.medium"
+  desired_capacity_nonprod    = 4
 }
 module "nonprod-rds" {
   source            = "./rds"
@@ -86,17 +83,17 @@ module "bastion-host" {
   load_balancers      = [module.bastion-elb.elb_name, ]
   vpc_id              = module.bastion-vpc.vpc_id
 
-  iam_role_node_arn                      = module.nonprod-eks-cluster.iam_role_node_arn
-  eks_cluster_endpoint                   = module.nonprod-eks-cluster.eks_cluster_endpoint
-  eks_cluster_certificate_authority_data = module.nonprod-eks-cluster.eks_cluster_certificate_authority_data
-  eks_cluster_name                       = module.nonprod-eks-cluster.eks_cluster_name
-  eks_cluster_arn                        = module.nonprod-eks-cluster.eks_cluster_arn
+  iam_role_node_arn                      = module.eks-cluster.iam_role_node_arn
+  eks_cluster_endpoint                   = module.eks-cluster.eks_cluster_endpoint
+  eks_cluster_certificate_authority_data = module.eks-cluster.eks_cluster_certificate_authority_data
+  eks_cluster_name                       = module.eks-cluster.eks_cluster_name
+  eks_cluster_arn                        = module.eks-cluster.eks_cluster_arn
 
-  iam_role_node_arn_prod                      = module.prod-eks-cluster.iam_role_node_arn
-  eks_cluster_endpoint_prod                   = module.prod-eks-cluster.eks_cluster_endpoint
-  eks_cluster_certificate_authority_data_prod = module.prod-eks-cluster.eks_cluster_certificate_authority_data
-  eks_cluster_name_prod                       = module.prod-eks-cluster.eks_cluster_name
-  eks_cluster_arn_prod                        = module.prod-eks-cluster.eks_cluster_arn
+  iam_role_node_arn_prod                      = module.eks-cluster.iam_role_node_arn_prod
+  eks_cluster_endpoint_prod                   = module.eks-cluster.eks_cluster_endpoint_prod
+  eks_cluster_certificate_authority_data_prod = module.eks-cluster.eks_cluster_certificate_authority_data_prod
+  eks_cluster_name_prod                       = module.eks-cluster.eks_cluster_name_prod
+  eks_cluster_arn_prod                        = module.eks-cluster.eks_cluster_arn_prod
 
   external_dns_iam_role_arn = module.route-53.external-dns-iam-role-arn
   aws_access_key_id         = local.access_key
