@@ -17,7 +17,7 @@ contexts:
     cluster: ${eks_cluster_arn}
     user: ${eks_cluster_arn}
   name: ${eks_cluster_name}
-current-context: ${eks_cluster_arn}
+current-context: ${eks_cluster_name}
 kind: Config
 preferences: {}
 users:
