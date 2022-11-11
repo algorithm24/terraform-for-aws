@@ -96,8 +96,8 @@ module "bastion-host" {
   eks_cluster_arn_prod                        = module.eks-cluster.eks_cluster_arn_prod
 
   external_dns_iam_role_arn = module.route-53.external-dns-iam-role-arn
-  aws_access_key_id         = local.access_key
-  aws_secret_access_key     = local.secret_key
+  aws_access_key_id         = var.access_key
+  aws_secret_access_key     = var.secret_key
 }
 module "bastion-nonprod" {
   source      = "./peering"
