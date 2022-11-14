@@ -12,3 +12,6 @@ terraform {
     }
   }
 }
+locals {
+  test = test
+}
