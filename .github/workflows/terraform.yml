@@ -30,20 +30,6 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    # Setup TFLint version v0.38.1
-    - uses: terraform-linters/setup-tflint@v2
-      name: Setup TFLint
-      with:
-        tflint_version: v0.38.1
-
-    # Init TFLint
-    - name: Init TFLint
-      run: tflint --init
-
-    # Check that all Terraform configuration files
-    - name: Run TFLint
-      run: tflint -f compact
-
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
