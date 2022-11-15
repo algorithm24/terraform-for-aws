@@ -78,7 +78,7 @@ module "bastion-elb" {
 module "bastion-host" {
   source              = "./bastion_autoscaling"
   key_name            = module.key.key_name
-  instance_type       = "t2.medium_asdasd"
+  instance_type       = "t2.medium_dasd"
   vpc_zone_identifier = module.bastion-vpc.subnet_ids_instance
   load_balancers      = [module.bastion-elb.elb_name, ]
   vpc_id              = module.bastion-vpc.vpc_id
