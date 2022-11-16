@@ -50,7 +50,6 @@ module "nonprod-rds" {
   username          = module.secret.db-creds.username
   password          = module.secret.db-creds.password
   cidr_block_access = module.nonprod-vpc.cidr_block_access_rds
-  bastion_sg        = module.bastion-host.bastion-sg
 }
 module "prod-rds" {
   source            = "./rds"
@@ -60,7 +59,6 @@ module "prod-rds" {
   username          = module.secret.db-creds.username
   password          = module.secret.db-creds.password
   cidr_block_access = module.prod-vpc.cidr_block_access_rds
-  bastion_sg        = module.bastion-host.bastion-sg
 }
 module "route-53" {
   source            = "./route53"

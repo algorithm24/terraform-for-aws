@@ -16,6 +16,3 @@ variable "password" {
 variable "cidr_block_access" {
   type = list(string) 
 }
-variable "bastion_sg" {
-  type = string
-}
